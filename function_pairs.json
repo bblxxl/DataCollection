@@ -1,0 +1,353 @@
+[
+    {
+        "function_name": "get_files",
+        "function_code": "def get_files(dirname, size_in_kb):\n    \"\"\"Return files in dirname that are >= size_in_kb\"\"\"\n    files = [f for f in os.listdir('.') if os.stat(f).st_size/ONE_KB > size_in_kb]\n    return files",
+        "function_file": "talkpython-100-days/day027/intermediate/bite_116.py",
+        "test_function_name": "test_get_files",
+        "test_function_code": "def test_get_files(size):\n    with TemporaryDirectory(dir=TMP) as dirname:\n        test_size_in_kb = size * ONE_KB\n        _create_files(dirname)\n\n        files = list(get_files(dirname, test_size_in_kb))\n        filenames = [os.path.splitext(os.path.basename(f))[0] for f in files]\n\n        assert all(int(fn) >= test_size_in_kb for fn in filenames)",
+        "test_function_file": "talkpython-100-days/day027/intermediate/bite_116.py",
+        "repository": "natenka/100-days-of-Python"
+    },
+    {
+        "function_name": "some_data",
+        "function_code": "def some_data():\n    \"\"\"Return answer to ultimate question.\"\"\"\n    return 42",
+        "function_file": "books-tutorials/pytest-book/code/ch3/test_fixtures.py",
+        "test_function_name": "test_some_data",
+        "test_function_code": "def test_some_data(some_data):\n    \"\"\"Use fixture return value in a test.\"\"\"\n    assert some_data == 42",
+        "test_function_file": "books-tutorials/pytest-book/code/ch3/test_fixtures.py",
+        "repository": "natenka/100-days-of-Python"
+    },
+    {
+        "function_name": "a_tuple",
+        "function_code": "def a_tuple():\n    \"\"\"Return something more interesting.\"\"\"\n    return (1, 'foo', None, {'bar': 23})",
+        "function_file": "books-tutorials/pytest-book/code/ch3/test_fixtures.py",
+        "test_function_name": "test_a_tuple",
+        "test_function_code": "def test_a_tuple(a_tuple):\n    \"\"\"Demo the a_tuple fixture.\"\"\"\n    assert a_tuple[3]['bar'] == 32",
+        "test_function_file": "books-tutorials/pytest-book/code/ch3/test_fixtures.py",
+        "repository": "natenka/100-days-of-Python"
+    },
+    {
+        "function_name": "greeting",
+        "function_code": "def greeting(name):\n    print('Hi, {}'.format(name))",
+        "function_file": "books-tutorials/pytest-book/code/ch4/cap/test_capsys.py",
+        "test_function_name": "test_greeting",
+        "test_function_code": "def test_greeting(capsys):\n    greeting('Earthling')\n    out, err = capsys.readouterr()\n    assert out == 'Hi, Earthling\\n'\n    assert err == ''\n\n    greeting('Brian')\n    greeting('Nerd')\n    out, err = capsys.readouterr()\n    assert out == 'Hi, Brian\\nHi, Nerd\\n'\n    assert err == ''",
+        "test_function_file": "books-tutorials/pytest-book/code/ch4/cap/test_capsys.py",
+        "repository": "natenka/100-days-of-Python"
+    },
+    {
+        "function_name": "yikes",
+        "function_code": "def yikes(problem):\n    print('YIKES! {}'.format(problem), file=sys.stderr)",
+        "function_file": "books-tutorials/pytest-book/code/ch4/cap/test_capsys.py",
+        "test_function_name": "test_yikes",
+        "test_function_code": "def test_yikes(capsys):\n    yikes('Out of coffee!')\n    out, err = capsys.readouterr()\n    assert out == ''\n    assert 'Out of coffee!' in err",
+        "test_function_file": "books-tutorials/pytest-book/code/ch4/cap/test_capsys.py",
+        "repository": "natenka/100-days-of-Python"
+    },
+    {
+        "function_name": "lame_function",
+        "function_code": "def lame_function():\n    warnings.warn(\"Please stop using this\", DeprecationWarning)",
+        "function_file": "books-tutorials/pytest-book/code/ch4/test_warnings.py",
+        "test_function_name": "test_lame_function",
+        "test_function_code": "def test_lame_function(recwarn):\n    lame_function()\n    assert len(recwarn) == 1\n    w = recwarn.pop()\n    assert w.category == DeprecationWarning\n    assert str(w.message) == 'Please stop using this'",
+        "test_function_file": "books-tutorials/pytest-book/code/ch4/test_warnings.py",
+        "repository": "natenka/100-days-of-Python"
+    },
+    {
+        "function_name": "equivalent",
+        "function_code": "def equivalent(t1, t2):\n    \"\"\"Check two tasks for equivalence.\"\"\"\n    return ((t1.summary == t2.summary) and\n            (t1.owner == t2.owner) and\n            (t1.done == t2.done))",
+        "function_file": "books-tutorials/pytest-book/code/ch6/b/tasks_proj/tests/func/test_add_variety2.py",
+        "test_function_name": "test_equivalent",
+        "test_function_code": "def test_equivalent(self, tasks_db, task):\n        \"\"\"Similar test, just within a class.\"\"\"\n        task_id = tasks.add(task)\n        t_from_db = tasks.get(task_id)\n        assert equivalent(t_from_db, task)",
+        "test_function_file": "books-tutorials/pytest-book/code/ch7/tasks_proj_v2/tests/func/test_add_variety.py",
+        "repository": "natenka/100-days-of-Python"
+    },
+    {
+        "function_name": "KNN",
+        "function_code": "def KNN(mat, k):\n    mat = mat.float()\n    mat_square = torch.mm(mat, mat.t())\n    diag = torch.diagonal(mat_square)\n    # print(diag)\n    # print(diag.size())\n    val, index = diag.topk(k, largest=False, sorted=True)\n    return val, index",
+        "function_file": "utils.py",
+        "test_function_name": "test_KNN",
+        "test_function_code": "def test_KNN(self):\n        test_attr_1 = parse_attributes(\n            '[ 1.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 1.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 ]')\n        test_attr_1 = torch.tensor(test_attr_1)\n        # print(test_attr.size())\n        val, index = KNN(test_attr_1 - attributes_per_class, 1)\n        self.assertEqual(index.item(), 5)\n\n        test_attr_2 = parse_attributes(\n            '[ 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 1.00 1.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 1.00 ]')\n        test_attr_2 = torch.tensor(test_attr_2)\n        val, index = KNN(test_attr_2 - attributes_per_class, 1)\n        self.assertEqual(index.item(), 10)\n\n        test_attr_3 = parse_attributes(\n            '[ 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 1.00 1.00 1.00 1.00 0.00 0.00 1.00 1.00 1.00 1.00 1.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 ]')\n        test_attr_3 = torch.tensor(test_attr_3)\n        val, index = KNN(test_attr_3 - attributes_per_class, 1)\n        self.assertEqual(index.item(), 27)\n\n        test_attr_4 = parse_attributes(\n            '[ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 ]')\n        test_attr_4 = torch.tensor(test_attr_4)\n        val, index = KNN(test_attr_4 - attributes_per_class, 1)\n        self.assertEqual(index.item(), 36)\n\n        test_attr_5 = parse_attributes(\n            '[ 0.00 0.00 0.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 0.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 ]')\n        test_attr_5 = torch.tensor(test_attr_5)\n        val, index = KNN(test_attr_5 - attributes_per_class, 1)\n        self.assertEqual(index.item(), 43)",
+        "test_function_file": "ut.py",
+        "repository": "foamliu/Zero-Shot-Learning"
+    },
+    {
+        "function_name": "batched_KNN",
+        "function_code": "def batched_KNN(query, k, attributes):\n    batch_size = query.size()[0]\n    val_list = torch.zeros(batch_size, dtype=torch.float, device=device)\n    index_list = torch.zeros(batch_size, dtype=torch.int, device=device)\n    for i in range(batch_size):\n        q = query[i].to(device)\n        attributes = attributes.to(device)\n        diff = q - attributes\n        diff = torch.tensor(diff)\n        diff = diff.to(device)\n        val, index = KNN(diff, k)\n        val_list[i] = val\n        index_list[i] = index\n    return val_list, index_list",
+        "function_file": "utils.py",
+        "test_function_name": "test_batched_KNN",
+        "test_function_code": "def test_batched_KNN(self):\n        mat = [parse_attributes(\n            '[ 1.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 1.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 ]'),\n            parse_attributes(\n                '[ 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 1.00 1.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 1.00 ]'),\n            parse_attributes(\n                '[ 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 1.00 1.00 1.00 1.00 0.00 0.00 1.00 1.00 1.00 1.00 1.00 0.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 ]'),\n            parse_attributes(\n                '[ 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 ]'),\n            parse_attributes(\n                '[ 0.00 0.00 0.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 0.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 1.00 0.00 1.00 0.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 0.00 1.00 0.00 0.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 1.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 1.00 0.00 0.00 0.00 0.00 0.00 ]')\n        ]\n        mat = torch.tensor(mat)\n        val_list, index_list = batched_KNN(mat, 1)\n        print(index_list)\n        self.assertTrue(np.array_equal(index_list.cpu().numpy(), np.array([5, 10, 27, 36, 43])))",
+        "test_function_file": "ut.py",
+        "repository": "foamliu/Zero-Shot-Learning"
+    },
+    {
+        "function_name": "accuracy",
+        "function_code": "def accuracy(scores, targets):\n    batch_size = targets.size(0)\n    correct = scores.eq(targets)\n    # print('correct: ' + str(correct))\n    correct_total = correct.view(-1).float().sum()  # 0D tensor\n    return correct_total.item() * (100.0 / batch_size)",
+        "function_file": "utils.py",
+        "test_function_name": "test_accuracy",
+        "test_function_code": "def test_accuracy(self):\n        targets = torch.tensor([12, 34, 15, 3, 37, 18, 42, 46, 16, 39, 37, 47, 48, 44, 16, 10], device=device)\n        scores = torch.tensor([34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34], device=device)\n        acc = accuracy(scores, targets)\n        print('acc: ' + str(acc))\n        self.assertEqual(acc, 6.25)",
+        "test_function_file": "ut.py",
+        "repository": "foamliu/Zero-Shot-Learning"
+    },
+    {
+        "function_name": "save_checkpoint",
+        "function_code": "def save_checkpoint(model,\n                    epoch,\n                    num_iters,\n                    out_dir,\n                    filename_tmpl='epoch_{}.pth',\n                    optimizer=None,\n                    is_best=False):\n    if not os.path.isdir(out_dir):\n        os.makedirs(out_dir)\n    if isinstance(model, (DataParallel, DistributedDataParallel)):\n        model = model.module\n    filename = os.path.join(out_dir, filename_tmpl.format(epoch))\n    checkpoint = {\n        'epoch': epoch,\n        'num_iters': num_iters,\n        'state_dict': model_weights_to_cpu(model.state_dict())\n    }\n    if optimizer is not None:\n        checkpoint['optimizer'] = optimizer.state_dict()\n    torch.save(checkpoint, filename)\n    latest_link = os.path.join(out_dir, 'latest.pth')\n    make_link(filename, latest_link)\n    if is_best:\n        best_link = os.path.join(out_dir, 'best.pth')\n        make_link(filename, best_link)",
+        "function_file": "torchpack/io.py",
+        "test_function_name": "test_save_checkpoint",
+        "test_function_code": "def test_save_checkpoint():\n    tmp_dir = tempfile.mkdtemp()\n    model = Model()\n    epoch = 1\n    num_iters = 100\n    optimizer = torch.optim.SGD(model.parameters(), 0.01)\n    save_checkpoint(model, epoch, num_iters, tmp_dir)\n    assert osp.isfile(tmp_dir + '/epoch_1.pth')\n    chkp = torch.load(tmp_dir + '/epoch_1.pth')\n    assert isinstance(chkp, dict)\n    assert chkp['epoch'] == epoch\n    assert chkp['num_iters'] == num_iters\n    model.verify_params(chkp['state_dict'])\n    save_checkpoint(\n        model,\n        epoch,\n        num_iters,\n        tmp_dir,\n        filename_tmpl='test_{}.pth',\n        optimizer=optimizer)\n    assert osp.isfile(tmp_dir + '/test_1.pth')\n    chkp = torch.load(tmp_dir + '/test_1.pth')\n    assert isinstance(chkp, dict)\n    assert chkp['epoch'] == epoch\n    assert chkp['num_iters'] == num_iters\n    model.verify_params(chkp['state_dict'])\n    shutil.rmtree(tmp_dir)",
+        "test_function_file": "tests/test_io.py",
+        "repository": "hellock/torchpack"
+    },
+    {
+        "function_name": "load_checkpoint",
+        "function_code": "def load_checkpoint(model,\n                    filename,\n                    map_location=None,\n                    strict=False,\n                    logger=None):\n    # load checkpoint from modelzoo or file or url\n    if filename.startswith('modelzoo://'):\n        model_name = filename[11:]\n        checkpoint = model_zoo.load_url(model_urls[model_name])\n    elif filename.startswith(('http://', 'https://')):\n        checkpoint = model_zoo.load_url(filename)\n    else:\n        if not os.path.isfile(filename):\n            raise IOError('{} is not a checkpoint file'.format(filename))\n        checkpoint = torch.load(filename, map_location=map_location)\n    # get state_dict from checkpoint\n    if isinstance(checkpoint, OrderedDict):\n        state_dict = checkpoint\n    elif isinstance(checkpoint, dict) and 'state_dict' in checkpoint:\n        state_dict = checkpoint['state_dict']\n    else:\n        raise RuntimeError(\n            'No state_dict found in checkpoint file {}'.format(filename))\n    # strip prefix of state_dict\n    if list(state_dict.keys())[0].startswith('module.'):\n        state_dict = {k[7:]: v for k, v in checkpoint['state_dict'].items()}\n    # load state_dict\n    if isinstance(model, (DataParallel, DistributedDataParallel)):\n        load_state_dict(model.module, state_dict, strict, logger)\n    else:\n        load_state_dict(model, state_dict, strict, logger)\n    return checkpoint",
+        "function_file": "torchpack/io.py",
+        "test_function_name": "test_load_checkpoint",
+        "test_function_code": "def test_load_checkpoint():\n    model = Model()\n    with pytest.raises(IOError):\n        load_checkpoint(model, 'non_exist_file')",
+        "test_function_file": "tests/test_io.py",
+        "repository": "hellock/torchpack"
+    },
+    {
+        "function_name": "evaluate",
+        "function_code": "def evaluate(create_input_dict_fn, create_model_fn, eval_config, categories,\n             checkpoint_dir, eval_dir):\n  \"\"\"Evaluation function for detection models.\n\n  Args:\n    create_input_dict_fn: a function to create a tensor input dictionary.\n    create_model_fn: a function that creates a DetectionModel.\n    eval_config: a eval_pb2.EvalConfig protobuf.\n    categories: a list of category dictionaries. Each dict in the list should\n                have an integer 'id' field and string 'name' field.\n    checkpoint_dir: directory to load the checkpoints to evaluate from.\n    eval_dir: directory to write evaluation metrics summary to.\n\n  Returns:\n    metrics: A dictionary containing metric names and values from the latest\n      run.\n  \"\"\"\n\n  model = create_model_fn()\n\n  if eval_config.ignore_groundtruth and not eval_config.export_path:\n    logging.fatal('If ignore_groundtruth=True then an export_path is '\n                  'required. Aborting!!!')\n\n  tensor_dict = _extract_prediction_tensors(\n      model=model,\n      create_input_dict_fn=create_input_dict_fn,\n      ignore_groundtruth=eval_config.ignore_groundtruth)\n\n  def _process_batch(tensor_dict, sess, batch_index, counters):\n    \"\"\"Evaluates tensors in tensor_dict, visualizing the first K examples.\n\n    This function calls sess.run on tensor_dict, evaluating the original_image\n    tensor only on the first K examples and visualizing detections overlaid\n    on this original_image.\n\n    Args:\n      tensor_dict: a dictionary of tensors\n      sess: tensorflow session\n      batch_index: the index of the batch amongst all batches in the run.\n      counters: a dictionary holding 'success' and 'skipped' fields which can\n        be updated to keep track of number of successful and failed runs,\n        respectively.  If these fields are not updated, then the success/skipped\n        counter values shown at the end of evaluation will be incorrect.\n\n    Returns:\n      result_dict: a dictionary of numpy arrays\n    \"\"\"\n    try:\n      result_dict = sess.run(tensor_dict)\n      counters['success'] += 1\n    except tf.errors.InvalidArgumentError:\n      logging.info('Skipping image')\n      counters['skipped'] += 1\n      return {}\n    global_step = tf.train.global_step(sess, tf.train.get_global_step())\n    if batch_index < eval_config.num_visualizations:\n      tag = 'image-{}'.format(batch_index)\n      eval_util.visualize_detection_results(\n          result_dict,\n          tag,\n          global_step,\n          categories=categories,\n          summary_dir=eval_dir,\n          export_dir=eval_config.visualization_export_dir,\n          show_groundtruth=eval_config.visualization_export_dir)\n    return result_dict\n\n  variables_to_restore = tf.global_variables()\n  global_step = tf.train.get_or_create_global_step()\n  variables_to_restore.append(global_step)\n  if eval_config.use_moving_averages:\n    variable_averages = tf.train.ExponentialMovingAverage(0.0)\n    variables_to_restore = variable_averages.variables_to_restore()\n  saver = tf.train.Saver(variables_to_restore)\n\n  def _restore_latest_checkpoint(sess):\n    latest_checkpoint = tf.train.latest_checkpoint(checkpoint_dir)\n    saver.restore(sess, latest_checkpoint)\n\n  metrics = eval_util.repeated_checkpoint_run(\n      tensor_dict=tensor_dict,\n      summary_dir=eval_dir,\n      evaluators=get_evaluators(eval_config, categories),\n      batch_processor=_process_batch,\n      checkpoint_dirs=[checkpoint_dir],\n      variables_to_restore=None,\n      restore_fn=_restore_latest_checkpoint,\n      num_batches=eval_config.num_examples,\n      eval_interval_secs=eval_config.eval_interval_secs,\n      max_number_of_evaluations=(1 if eval_config.ignore_groundtruth else\n                                 eval_config.max_evals\n                                 if eval_config.max_evals else None),\n      master=eval_config.eval_master,\n      save_graph=eval_config.save_graph,\n      save_graph_dir=(eval_dir if eval_config.save_graph else ''))\n\n  return metrics",
+        "function_file": "object_detection/evaluator.py",
+        "test_function_name": "test_evaluate",
+        "test_function_code": "def test_evaluate(self):\n    (average_precision_per_class, mean_ap, precisions_per_class,\n     recalls_per_class, corloc_per_class,\n     mean_corloc) = self.od_eval.evaluate()\n    expected_precisions_per_class = [np.array([0, 0.5], dtype=float),\n                                     np.array([], dtype=float),\n                                     np.array([0], dtype=float)]\n    expected_recalls_per_class = [\n        np.array([0, 1. / 3.], dtype=float), np.array([], dtype=float),\n        np.array([0], dtype=float)\n    ]\n    expected_average_precision_per_class = np.array([1. / 6., 0, 0],\n                                                    dtype=float)\n    expected_corloc_per_class = np.array([0, np.divide(0, 0), 0], dtype=float)\n    expected_mean_ap = 1. / 18\n    expected_mean_corloc = 0.0\n    for i in range(self.od_eval.num_class):\n      self.assertTrue(np.allclose(expected_precisions_per_class[i],\n                                  precisions_per_class[i]))\n      self.assertTrue(np.allclose(expected_recalls_per_class[i],\n                                  recalls_per_class[i]))\n    self.assertTrue(np.allclose(expected_average_precision_per_class,\n                                average_precision_per_class))\n    self.assertTrue(np.allclose(expected_corloc_per_class, corloc_per_class))\n    self.assertAlmostEqual(expected_mean_ap, mean_ap)\n    self.assertAlmostEqual(expected_mean_corloc, mean_corloc)",
+        "test_function_file": "object_detection/utils/object_detection_evaluation_test.py",
+        "repository": "mogoweb/PhotoMathChecker"
+    },
+    {
+        "function_name": "append",
+        "function_code": "def append(self, x):\n        \"\"\"\n        Append InstancePart to the end of all pieces of data in the collection.\n        :param x: InstancePart\n        :return: void\n        \"\"\"\n        for l in self.collection:\n            l.append(x)",
+        "function_file": "floem/api_handling.py",
+        "test_function_name": "test_append",
+        "test_function_code": "def test_append(self):\n        c1 = FlowCollection(\"x\", 3, [[InstancePart(\"x\", set([0, 1]), 3)]], False)\n        c2 = c1.clone()\n        c3 = c1.clone()\n        c2.append(InstancePart(\"y\", set([0]), 2))\n        c3.append(InstancePart(\"y\", set([1]), 2))\n\n        self.assertEqual(c2.collection, [[InstancePart(\"x\", set([0, 1]), 3), InstancePart(\"y\", set([0]), 2)]], str(c2))\n        self.assertEqual(c3.collection, [[InstancePart(\"x\", set([0, 1]), 3), InstancePart(\"y\", set([1]), 2)]], str(c3))\n\n\n        c1 = FlowCollection(\"x\", 3, [[InstancePart(\"x\", set([0]), 3)], [InstancePart(\"x\", set([2]), 3)]], False)\n        c2 = c1.clone()\n        c2.append(InstancePart(\"y\", set([0]), 2))\n        self.assertEqual(c2.collection, [[InstancePart(\"x\", set([0]), 3), InstancePart(\"y\", set([0]), 2)],\n                                         [InstancePart(\"x\", set([2]), 3), InstancePart(\"y\", set([0]), 2)]],\n                         str(c2))",
+        "test_function_file": "floem/test_join_handling.py",
+        "repository": "mangpo/floem"
+    },
+    {
+        "function_name": "init",
+        "function_code": "def init(self):\n        self.len = 16\n        self.lock = lambda x: 'qlock_init(&%s)' % x",
+        "function_file": "apps/memcached_cpu_only/main.py",
+        "test_function_name": "test_init",
+        "test_function_code": "def test_init(self):\n        self.assertEqual(concretize_init(\"s[4]\"), ['s0','s1', 's2', 's3'])\n\n        init = concretize_init(AddressOf('s[4]'))\n        expect = [AddressOf('s{0}'.format(x)) for x in range(4)]\n        self.assertEqual(init, expect)\n\n        init = concretize_init([AddressOf('s[4]')])\n        expect = [[AddressOf('s{0}'.format(x)) for x in range(4)]]\n        expect_str = '{{' + ','.join(['&s{0}'.format(x) for x in range(4)]) + '}}'\n        self.assertEqual(init, expect)\n        self.assertEqual(expect_str, get_str_init(init))",
+        "test_function_file": "floem/test_desugar.py",
+        "repository": "mangpo/floem"
+    },
+    {
+        "function_name": "receptive_field_size",
+        "function_code": "def receptive_field_size(total_layers, num_cycles, kernel_size,\n                         dilation=lambda x: 2**x):\n    \"\"\"Compute receptive field size\n\n    Args:\n        total_layers (int): total layers\n        num_cycles (int): cycles\n        kernel_size (int): kernel size\n        dilation (lambda): lambda to compute dilation factor. ``lambda x : 1``\n          to disable dilated convolution.\n\n    Returns:\n        int: receptive field size in sample\n\n    \"\"\"\n    assert total_layers % num_cycles == 0\n    layers_per_cycle = total_layers // num_cycles\n    dilations = [dilation(i % layers_per_cycle) for i in range(total_layers)]\n    return (kernel_size - 1) * sum(dilations) + 1",
+        "function_file": "wavenet_vocoder/wavenet.py",
+        "test_function_name": "test_receptive_field_size",
+        "test_function_code": "def test_receptive_field_size():\n    # Table 4 in https://arxiv.org/abs/1711.10433\n    assert receptive_field_size(total_layers=30, num_cycles=3, kernel_size=3) == 6139\n    assert receptive_field_size(total_layers=24, num_cycles=4, kernel_size=3) == 505\n    assert receptive_field_size(total_layers=12, num_cycles=2, kernel_size=3) == 253\n    assert receptive_field_size(total_layers=30, num_cycles=1,\n                                kernel_size=3, dilation=lambda x: 1) == 61",
+        "test_function_file": "tests/test_misc.py",
+        "repository": "geneing/parallel_wavenet_vocoder"
+    },
+    {
+        "function_name": "reader",
+        "function_code": "def reader():\n            with open(test_list, 'r') as f:\n                lines = [line.strip() for line in f]\n                for line in lines:\n                    img_path, lab = line.strip().split('\\t')\n                    yield img_path, int(lab)",
+        "function_file": "data_list.py",
+        "test_function_name": "test_reader",
+        "test_function_code": "def test_reader(self, test_list, buffered_size=1024):\n        def reader():\n            with open(test_list, 'r') as f:\n                lines = [line.strip() for line in f]\n                for line in lines:\n                    img_path, lab = line.strip().split('\\t')\n                    yield img_path, int(lab)\n\n        return paddle.reader.xmap_readers(self.test_mapper, reader,\n                                          cpu_count(), buffered_size)",
+        "test_function_file": "data_list.py",
+        "repository": "SeuTao/Face_Verification_PaddlePaddle_V2"
+    },
+    {
+        "function_name": "gen",
+        "function_code": "def gen(self, batch_size):\n        valid_target_len = self.valid_target_len\n        with open(self.annotation_path, 'r') as ann_file:\n            lines = ann_file.readlines()\n            random.shuffle(lines)\n            for l in lines:\n                img_path, lex = l.strip().split()\n                try:\n                    img_bw, word = self.read_data(img_path, lex)\n                    if valid_target_len < float('inf'):\n                        word = word[:valid_target_len + 1]\n                    width = img_bw.shape[-1]\n\n                    # TODO:resize if > 320\n                    b_idx = min(width, self.bucket_max_width)\n                    bs = self.bucket_data[b_idx].append(img_bw, word, os.path.join(self.data_root,img_path))\n                    if bs >= batch_size:\n                        b = self.bucket_data[b_idx].flush_out(\n                                self.bucket_specs,\n                                valid_target_length=valid_target_len,\n                                go_shift=1)\n                        if b is not None:\n                            yield b\n                        else:\n                            assert False, 'no valid bucket of width %d'%width\n                except IOError:\n                    pass # ignore error images\n                    #with open('error_img.txt', 'a') as ef:\n                    #    ef.write(img_path + '\\n')\n        self.clear()",
+        "function_file": "src/data_util/data_gen.py",
+        "test_function_name": "test_gen",
+        "test_function_code": "def test_gen():\n    print('testing gen_valid')\n    # s_gen = EvalGen('../../data/evaluation_data/svt', 'test.txt')\n    # s_gen = EvalGen('../../data/evaluation_data/iiit5k', 'test.txt')\n    # s_gen = EvalGen('../../data/evaluation_data/icdar03', 'test.txt')\n    s_gen = EvalGen('../../data/evaluation_data/icdar13', 'test.txt')\n    count = 0\n    for batch in s_gen.gen(1):\n        count += 1\n        print(str(batch['bucket_id']) + ' ' + str(batch['data'].shape[2:]))\n        assert batch['data'].shape[2] == img_height\n    print(count)",
+        "test_function_file": "src/data_util/data_gen.py",
+        "repository": "da03/Attention-OCR"
+    },
+    {
+        "function_name": "ctpn",
+        "function_code": "def ctpn(sess, net, image_name):\n    timer = Timer()\n    timer.tic()\n\n    img = cv2.imread(image_name)\n    img, scale = resize_im(img, scale=TextLineCfg.SCALE, max_scale=TextLineCfg.MAX_SCALE)\n    scores, boxes = test_ctpn(sess, net, img)\n\n    textdetector = TextDetector()\n    boxes = textdetector.detect(boxes, scores[:, np.newaxis], img.shape[:2])\n    draw_boxes(img, image_name, boxes, scale)\n    timer.toc()\n    print(('Detection took {:.3f}s for '\n           '{:d} object proposals').format(timer.total_time, boxes.shape[0]))",
+        "function_file": "ctpn/ctpn/demo.py",
+        "test_function_name": "test_ctpn",
+        "test_function_code": "def test_ctpn(sess, net, im, boxes=None):\n    blobs, im_scales = _get_blobs(im, boxes)\n    if cfg.TEST.HAS_RPN:\n        im_blob = blobs['data']\n        blobs['im_info'] = np.array(\n            [[im_blob.shape[1], im_blob.shape[2], im_scales[0]]],\n            dtype=np.float32)\n    # forward pass\n    if cfg.TEST.HAS_RPN:\n        feed_dict = {net.data: blobs['data'], net.im_info: blobs['im_info'], net.keep_prob: 1.0}\n\n    rois = sess.run([net.get_output('rois')[0]],feed_dict=feed_dict)\n    rois=rois[0]\n\n    scores = rois[:, 0]\n    if cfg.TEST.HAS_RPN:\n        assert len(im_scales) == 1, \"Only single-image batch implemented\"\n        boxes = rois[:, 1:5] / im_scales[0]\n    return scores, boxes",
+        "test_function_file": "ctpn/lib/fast_rcnn/test.py",
+        "repository": "ooooverflow/chinese-ocr"
+    },
+    {
+        "function_name": "run",
+        "function_code": "def run(seed=0, env_id='DirHopper', log_path='/tmp/out', n_cpu=1, **agent_args):\n    es = setup_es(seed, env_id, log_path, n_cpu, **agent_args)\n    es.train(**agent_args, n_cpu=n_cpu)",
+        "function_file": "epg/launch_local.py",
+        "test_function_name": "test_run",
+        "test_function_code": "def test_run(seed=0, env_id='DirHopper', log_path='/tmp/out', n_cpu=1, **agent_args):\n    es = setup_es(seed, env_id, log_path, n_cpu, **agent_args)\n    es.test(**agent_args, n_cpu=n_cpu)",
+        "test_function_file": "epg/launch_local.py",
+        "repository": "openai/EPG"
+    },
+    {
+        "function_name": "start",
+        "function_code": "def start(self, seconds=None, selfupdate=60):\n        \"\"\"\n        Start listening to the stream.\n\n        :param seconds: If you want to automatically disconnect after a certain\n                        amount of time, pass the number of seconds into this\n                        parameter.\n        :param selfupdate: Number of seconds between auto-calculate.\n        \"\"\"\n        def delayed_stop():\n            time.sleep(seconds)\n            print('Timer completed. Disconnecting now...')\n            self.stop()\n\n        def self_update():\n            while self.connected:\n                time.sleep(selfupdate)\n                self.sentiment\n\n        if len(self.tracking) == 0:\n            print('Nothing to track!')\n        else:\n           self._stream.filter(\n              track=self.tracking, languages=self.lang, is_async=True,\n              filter_level=self._filter_level\n              )\n        if seconds is not None:\n            t = Thread(target=delayed_stop)\n            t.start()\n\n        if selfupdate is not None and selfupdate > 0:\n            t2 = Thread(target=self_update)\n            t2.start()",
+        "function_file": "tweetfeels/tweetfeels.py",
+        "test_function_name": "test_start",
+        "test_function_code": "def test_start(self):\n        mock_feels = TweetFeels(\"abcd\")\n        mock_feels.tracking = []\n        mock_feels.start(selfupdate=0)\n        mock_feels._stream.filter.assert_not_called()\n        mock_feels.tracking = ['tsla']\n        mock_feels.start(selfupdate=0)\n        mock_feels._stream.filter.assert_called_once()",
+        "test_function_file": "test/test_feels.py",
+        "repository": "uclatommy/tweetfeels"
+    },
+    {
+        "function_name": "on_error",
+        "function_code": "def on_error(self, status):\n        \"\"\"\n        Called by :class:`TweetListener` when an error is recieved.\n        \"\"\"\n        self.start()",
+        "function_file": "tweetfeels/tweetfeels.py",
+        "test_function_name": "test_on_error",
+        "test_function_code": "def test_on_error(self, mock_feels):\n        tl = TweetListener(mock_feels)\n        tl.reconnect_wait = MagicMock()\n        tl.on_error(420)\n        tl.reconnect_wait.assert_called_with('exponential')\n        self.assertEqual(tl._waited, 60)\n        mock_feels.on_error.assert_called_with(420)",
+        "test_function_file": "test/test_listener.py",
+        "repository": "uclatommy/tweetfeels"
+    },
+    {
+        "function_name": "sentiment",
+        "function_code": "def sentiment(self):\n        end = self._feels.end\n        sentiments = self.sentiments(\n            strt=self._latest_calc, end=end, delta_time=self._bin_size\n            )\n        s = None\n        for s in sentiments:\n            pass\n        return s",
+        "function_file": "tweetfeels/tweetfeels.py",
+        "test_function_name": "test_sentiment",
+        "test_function_code": "def test_sentiment(self):\n        mock_feels = TweetFeels(\"abcd\")\n        mock_feels._feels.tweets_since = MagicMock(return_value=[])\n        mock_feels._sentiment = Sentiment(0.5, 0, 0, 0)\n        mock_feels._latest_calc = datetime(2017, 1, 1, 0, 0, 0)\n        mock_feels._feels.start = datetime(2017, 1, 1, 0, 0, 0)\n        mock_feels._feels.end = datetime(2017, 1, 1, 0, 0, 0)\n        self.assertEqual(mock_feels.sentiment.value, 0.5)",
+        "test_function_file": "test/test_feels.py",
+        "repository": "uclatommy/tweetfeels"
+    },
+    {
+        "function_name": "stop",
+        "function_code": "def stop(self):\n        \"\"\"\n        Disconnect from the stream.\n\n        Warning: Connecting and disconnecting too frequently will get you\n        blacklisted by Twitter. Your connections should be long-lived.\n        \"\"\"\n        self._stream.disconnect()",
+        "function_file": "tweetfeels/tweetfeels.py",
+        "test_function_name": "test_stop",
+        "test_function_code": "def test_stop(self):\n        mock_feels = TweetFeels(\"abcd\")\n        mock_feels.stop()\n        mock_feels._stream.disconnect.assert_called_once()",
+        "test_function_file": "test/test_feels.py",
+        "repository": "uclatommy/tweetfeels"
+    },
+    {
+        "function_name": "on_data",
+        "function_code": "def on_data(self, data):\n        \"\"\"\n        Called by :class:`TweetListener` when new tweet data is recieved.\n\n        Note: Due to upstream bug in tweepy for python3, it cannot handle the\n        `filter_level` parameter in the `Stream.filter` function. Therefore,\n        we'll take care of it here. The problem has been identified and fixed\n        by the tweepy team here: https://github.com/tweepy/tweepy/pull/783\n\n        :param data: The tweet data. Should be a single :class:`Tweet`.\n        :type data: Tweet\n        \"\"\"\n        filter_value = {'none': 0, 'low': 1, 'medium': 2}\n        value = filter_value[data['filter_level']]\n\n        if value >= filter_value[self._filter_level]:\n            self._tweet_buffer.append(data)\n\n            if len(self._tweet_buffer) > self.buffer_limit:\n                t = Thread(target=self.clear_buffer)\n                t.start()",
+        "function_file": "tweetfeels/tweetfeels.py",
+        "test_function_name": "test_on_data",
+        "test_function_code": "def test_on_data(self):\n        mock_feels = TweetFeels(\"abcd\")\n        mock_feels.buffer_limit = 0\n        data = {'filter_level': 'low', 'text': 'test data'}\n        mock_feels.on_data(data)\n        mock_feels._feels.insert_tweet.assert_called_once()\n\n        # test filtering levels\n        mock_feels2 = TweetFeels(\"abcd\")\n        mock_feels2._filter_level = 'medium'\n        mock_feels2.on_data(data)\n        mock_feels2._feels.insert_tweet.assert_not_called()\n\n        # test buffer limit. no inserts until we are over limit\n        mock_feels2.buffer_limit = 2\n        mock_feels2.filter_level = 'low'\n        mock_feels2.on_data(data)\n        mock_feels2._feels.insert_tweet.assert_not_called()\n        mock_feels2.on_data(data)\n        mock_feels2.on_data(data)\n        mock_feels._feels.insert_tweet.assert_called_once()",
+        "test_function_file": "test/test_feels.py",
+        "repository": "uclatommy/tweetfeels"
+    },
+    {
+        "function_name": "sentiments",
+        "function_code": "def sentiments(self, strt=None, end=None, delta_time=None, nans=False):\n        \"\"\"\n        Provides a generator for sentiment values in ``delta_time`` increments.\n\n        :param start: The start time at which the generator yeilds a value. If\n                      not provided, generator will start from beginning of your\n                      dataset.\n        :type start: datetime\n        :param end: The ending datetime of the series. If not provided,\n                    generator will not stop until it reaches the end of your\n                    dataset.\n        :type end: datetime\n        :param delta_time: The time length that each sentiment value represents.\n                           If not provided, the generator will use the setting\n                           configured by :class:`TweetFeels`.\n        :type delta_time: timedelta\n        :param nans: Determines if a nan will be yielded when no tweets are\n                     observed within a bin.\n        :type nans: boolean\n        \"\"\"\n        beginning = self._feels.start\n\n        if strt is None:\n            self._latest_calc = beginning\n            strt = beginning\n        else:\n            self._latest_calc = max(strt, self._feels.start)\n        if end is None:\n            end = self._feels.end\n        if delta_time is None:\n            delta_time = self._bin_size\n\n        # get to the starting point\n        if strt < self._latest_calc:\n            self._sentiment = Sentiment(0, 0, 0, 0)\n            b = self._feels.tweets_between(beginning, strt)\n        else:\n            b = self._feels.tweets_between(self._latest_calc, strt)\n\n        self._sentiment = self.model_sentiment(\n            b, self._sentiment, self._factor\n            )\n        self._latest_calc = strt\n\n        # start yielding sentiment values\n        end = min(end, self._feels.end)\n        if self._latest_calc < end:\n            bins = self._feels.fetchbin(\n                start=self._latest_calc, end=end, binsize=delta_time, empty=nans\n                )\n            sentiment = deque()\n            for b in bins:\n                try:\n                    # only save sentiment value if not the last element\n                    self._sentiment = sentiment.popleft()\n                except IndexError:\n                    pass\n\n                latest = self._sentiment\n                if len(b) > 0:\n                    latest = self.model_sentiment(\n                        b, self._sentiment, self._factor\n                        )\n                sentiment.append(latest)\n                self._latest_calc = b.start\n                # Yield the latest element\n                if len(b) == 0 and nans:\n                    yield Sentiment(np.nan, b.influence, b.start, b.end)\n                else:\n                    yield sentiment[-1]\n        else:\n            # this only happens when strt >= end\n            yield self._sentiment",
+        "function_file": "tweetfeels/tweetfeels.py",
+        "test_function_name": "test_sentiments",
+        "test_function_code": "def test_sentiments(self):\n        start = datetime(2017, 2, 19, 0, 0, 0)\n        dt = timedelta(minutes=30)\n        sentiment = self.mock_feels.sentiments(strt=start, delta_time=dt)\n        self.assertTrue(np.isclose(next(sentiment).value, 0))\n        self.assertTrue(np.isclose(next(sentiment).value, -0.007351))\n        self.assertTrue(np.isclose(next(sentiment).value, -0.01299649))\n        for s in sentiment:\n            print(s)\n        # we are starting at 2017-2-19 19:00:00 and using bins with length 30\n        # minutes, therefore our latest calc will be just prior to the final\n        # observation.\n        self.assertEqual(self.mock_feels._latest_calc,\n                         datetime(2017, 2, 21, 19, 0, 0))",
+        "test_function_file": "test/test_feels.py",
+        "repository": "uclatommy/tweetfeels"
+    },
+    {
+        "function_name": "get_min_rep",
+        "function_code": "def get_min_rep(T):\n    '''\n    Convert 3*4 matrix into 6*1 vector\n\n    [x y z alpha beta gamma]\n\n    '''\n    t = T[:, 3]\n    x, y, z = t\n\n    angles = extract_angles(T[:, :3])\n\n    T_vect = np.zeros(6)\n    T_vect[:3] = t\n    T_vect[3:6] = angles\n    return T_vect",
+        "function_file": "pose_estimation/camera_pose_estimation_old.py",
+        "test_function_name": "test_get_min_rep",
+        "test_function_code": "def test_get_min_rep():\n    T = np.array(\n        [[0.36, 0.48, -0.8, 5], [-0.8, 0.6, 0, 3], [0.48, 0.64, 0.60, 8]])\n    # T =\n    # np.array([[1,0,0,5],[0,math.sqrt(3)/2,0.5,3],[0,-0.5,math.sqrt(3)/2,8]])\n    # # 30 degree rotation about x axis - works\n    print(T, '\\n')\n    print(\"Testing get_min_rep\", get_min_rep(T))\n    return get_min_rep(T)",
+        "test_function_file": "pose_estimation/camera_pose_estimation_old.py",
+        "repository": "iitmcvg/CNN_SLAM"
+    },
+    {
+        "function_name": "find_epipoles",
+        "function_code": "def find_epipoles(F):\n    '''\n    F.e1 = 0\n    F.transpose.e2 = 0\n    '''\n    e1 = np.cross(F[0] + F[1], F[1] + F[2])\n    if e1[2] != 0:\n        e1 = e1 / e1[2]\n    e2 = np.cross(F[:, 0] + F[:, 1], F[:, 1] + F[:, 2])\n    if e2[2] != 0:\n        e2 = e2 / e2[2]\n\n    if(np.dot(F[2], e1) > 1e-8 or np.dot(F[:, 2], e2) > 1e-8):  # Change later\n        print(\"Error with finding epipoles\")\n        # Add something here for error handling\n\n    return e1, e2",
+        "function_file": "pose_estimation/stereo_match.py",
+        "test_function_name": "test_find_epipoles",
+        "test_function_code": "def test_find_epipoles():\n    t_s = np.random.random((6))\n    T = _get_back_T(t_s)\n    E = stereo_match.get_essential_matrix(T)\n    F = np.matmul(camera_matrix_inv.T, np.matmul(E, camera_matrix_inv))\n    e1, e2 = stereo_match.find_epipoles(F)",
+        "test_function_file": "pose_estimation/camera_pose_estimation_old.py",
+        "repository": "iitmcvg/CNN_SLAM"
+    },
+    {
+        "function_name": "pose_graph_optimisation",
+        "function_code": "def pose_graph_optimisation(keyframes):\n\t'''\n\tOptimises graph\n\n\tInputs:\n\t\tkeyframe: list of keyframes (of keyframe class)\n\n\tReturns:\n\t\tPoints cloud\n\t'''\n\ttf.enable_eager_execution()\n\n\tposes = []\n\tworld_poses = []\n\tcovariances = []\n\tj = 0\n\tfor i in keyframes:\n\t\tposes.append(np.append(i.T,np.array([[0,0,0,1]]),0)) # 4x4 pose\n\t\tif j==0:\n\t\t\tworld_poses.append(poses[0])\n\t\telse:\n\t\t\tworld_poses.append(np.matmul(utils.get_back_T(world_poses[j-1]),poses[j])) # Initial guess. Is a 4x4 matrix\n\t\tworld_poses[j] = tf.contrib.eager.Variable(utils.get_min_rep(world_poses[j][:3])) # 6 vector\n\t\tcovariances.append(i.C)\n\t\tj += 1\n\t#world_poses = tf.contrib.eager.Variable(world_poses)\n\toptimizer = tf.train.AdamOptimizer(learning_rate = learning_rate)\n\tloss = find_cost(world_poses,poses,covariances,j)\n\tprint()\n\tprint()\n\t# j is length of array\n\ti = -1\n\tfig = plt.figure()\n\tax = Axes3D(fig)\n\twhile(1):\n\t\ti += 1\n\t\tgrads = find_grad(world_poses, poses,covariances,j)\n\t\t#print(\"grads\",grads,\"\\n\\n\")\n\t\t#print(\"wp\",world_poses,\"\\n\\n\")\n\t\toptimizer.apply_gradients(zip(grads,world_poses),global_step = tf.train.get_or_create_global_step())\n\t\tloss = find_cost(world_poses,poses,covariances,j)\n\t\tprint(loss)\n\t\ta = []\n\t\tfor i in range(len(world_poses)):\n\t\t\tx,y,z = world_poses[i].numpy()[0],world_poses[i].numpy()[1],world_poses[i].numpy()[2]\n\t\t\ta.append(ax.scatter(x,y,z))\n\t\tplt.pause(0.05)\n\t\t#print(loss.numpy())\n\t\t#plt.clf()\n\t\tif abs(loss.numpy())<15:\n\t\t\tbreak\n\t\tfor i in range(len(world_poses)):\n\t\t\ta[i].remove()\n\tplt.show()\n\tprint(\"done\")\n\n\t#cloud = generate_point_cloud(keyframes,world_poses)\n\treturn 1",
+        "function_file": "pose_graph_optimisation/pose_graph_optimisation.py",
+        "test_function_name": "test_pose_graph_optimisation",
+        "test_function_code": "def test_pose_graph_optimisation():\n\tkeyframes = []\n\ta = time.time()\n\tT1_s = np.random.random(6)\n\tT1 = utils.get_back_T(T1_s)\n\tT2_s = np.random.random(6)\n\tT2 = utils.get_back_T(T2_s)\n\tT3_s = np.random.random(6)\n\tT3 = utils.get_back_T(T3_s)\n\tC1 = np.absolute(np.random.random((6,6)))\n\tC2 = np.absolute(np.random.random((6,6)))\n\tC3 = np.absolute(np.random.random((6,6)))\n\tkeyframes.append(utils.Keyframe(T1,0,0,0,0,C1))\n\tkeyframes.append(utils.Keyframe(T2,0,0,0,0,C2))\n\tkeyframes.append(utils.Keyframe(T3,0,0,0,0,C3))\n\tfor i in range(15):\n\t\tT1_s = np.random.random(6)\n\t\tT1 = utils.get_back_T(T1_s)\n\t\tC1 = np.absolute(np.random.random((6,6)))\n\t\tkeyframes.append(utils.Keyframe(T1,0,0,0,0,C1))\n\tpose_graph_optimisation(keyframes)\n\tb = time.time()\n\tprint(b-a)",
+        "test_function_file": "pose_graph_optimisation/pose_graph_optimisation.py",
+        "repository": "iitmcvg/CNN_SLAM"
+    },
+    {
+        "function_name": "insert",
+        "function_code": "def insert(self, schema_name, docid, **fields):\n        self._action('insert', schema_name, docid, fields)",
+        "function_file": "tests/test_search.py",
+        "test_function_name": "test_insert",
+        "test_function_code": "def test_insert(self):\n        cursor = IndexCursor(self)\n        self.doc.save(cursor)\n        cursor.assert_match('insert', self.doc)",
+        "test_function_file": "tests/test_search.py",
+        "repository": "Net-ng/kansha"
+    },
+    {
+        "function_name": "update",
+        "function_code": "def update(self, schema_name, docid, **fields):\n        self._action('update', schema_name, docid, fields)",
+        "function_file": "tests/test_search.py",
+        "test_function_name": "test_update",
+        "test_function_code": "def test_update(self):\n        cursor = IndexCursor(self)\n        self.doc.save(cursor, update=True)\n        cursor.assert_match('update', self.doc)",
+        "test_function_file": "tests/test_search.py",
+        "repository": "Net-ng/kansha"
+    },
+    {
+        "function_name": "transform_third_codon",
+        "function_code": "def transform_third_codon(start, end, intervals_with_gff):\n    \"\"\"transform: only return nucleotide positions in window (start, end) \n    that are in third codon position.\n    \"\"\"\n    intervals = []\n    for istart, iend, gff in intervals_with_gff:\n\n        if gff.frame == \".\":\n            raise ValueError(\"need a frame for third codon positions.\")\n\n        # frame = nucleotides from start to next codon\n        frame = int(gff.frame)\n\n        # to make life easier, convert to 0-based coordinates,\n        # with zero starting at first position in window\n        # re-arrange positions on negative strand\n        if Genomics.IsNegativeStrand(gff.strand):\n            # convert to negative strand coordinates counting from 0\n            coordinate_offset = end\n            reverse = True\n            istart, iend = end - iend, end - istart\n        else:\n            istart, iend = istart - start, iend - start\n            reverse = False\n            coordinate_offset = start\n\n        # make sure that you start on a second codon position and within window\n        if istart < 0:\n            frame = (frame + istart) % 3\n            istart = 0\n        if frame != 0:\n            istart -= (3 - frame)\n        istart += 2\n\n        iend = min(iend, end - start)\n\n        for x in range(istart, iend, 3):\n\n            if reverse:\n                c = coordinate_offset - x - 1\n            else:\n                c = coordinate_offset + x\n            intervals.append((c, c + 1))\n\n    return Intervals.combineIntervals(intervals)",
+        "function_file": "CGAT/scripts/gff2table.py",
+        "test_function_name": "test_transform_third_codon",
+        "test_function_code": "def test_transform_third_codon():\n\n    def test_entry(frame, strand, xfrom, xto, start, end, ref):\n\n        entry = GTF.Entry()\n        entry.frame = frame\n        entry.strand = strand\n        entry.start = xfrom\n        entry.end = xto\n\n        intervals = transform_third_codon(start, end, [(xfrom, xto, entry)])\n        if ref != intervals:\n            print(\"failed:\", ref != intervals)\n\n    test_entry(0, \"+\", 1, 7, 0, 6, [(3, 4)])\n    test_entry(0, \"-\", 1, 7, 0, 6, [(1, 2), (4, 5)])\n    test_entry(1, \"+\", 1, 7, 0, 6, [(1, 2), (4, 5)])\n    test_entry(2, \"+\", 1, 7, 0, 6, [(2, 3), (5, 6)])\n    test_entry(1, \"-\", 1, 7, 0, 6, [(3, 4)])\n    test_entry(2, \"-\", 1, 7, 0, 6, [(2, 3), (5, 6)])\n\n    sys.exit(0)",
+        "test_function_file": "CGAT/scripts/gff2table.py",
+        "repository": "CGATOxford/cgat"
+    },
+    {
+        "function_name": "contextual_attention",
+        "function_code": "def contextual_attention(f, b, mask=None, ksize=3, stride=1, rate=1,\n                         fuse_k=3, softmax_scale=10., training=True, fuse=True):\n    \"\"\" Contextual attention layer implementation.\n\n    Contextual attention is first introduced in publication:\n        Generative Image Inpainting with Contextual Attention, Yu et al.\n\n    Args:\n        x: Input feature to match (foreground).\n        t: Input feature for match (background).\n        mask: Input mask for t, indicating patches not available.\n        ksize: Kernel size for contextual attention.\n        stride: Stride for extracting patches from t.\n        rate: Dilation for matching.\n        softmax_scale: Scaled softmax for attention.\n        training: Indicating if current graph is training or inference.\n\n    Returns:\n        tf.Tensor: output\n\n    \"\"\"\n    # get shapes\n    raw_fs = tf.shape(f)\n    #batch_size = raw_fs[0]\n    raw_int_fs = f.get_shape().as_list()\n    raw_int_bs = b.get_shape().as_list()\n    # extract patches from background with stride and rate\n    kernel = 2*rate\n    raw_w = tf.extract_image_patches(\n        b, [1,kernel,kernel,1], [1,rate*stride,rate*stride,1], [1,1,1,1], padding='SAME')\n    raw_w = tf.reshape(raw_w, [raw_int_bs[0], -1, kernel, kernel, raw_int_bs[3]])\n    raw_w = tf.transpose(raw_w, [0, 2, 3, 4, 1])  # transpose to b*k*k*c*hw\n    # downscaling foreground option: downscaling both foreground and\n    # background for matching and use original background for reconstruction.\n    f = resize(f, scale=1./rate, func=tf.image.resize_nearest_neighbor)\n    b = resize(b, to_shape=[int(raw_int_bs[1]/rate), int(raw_int_bs[2]/rate)], func=tf.image.resize_nearest_neighbor)  # https://github.com/tensorflow/tensorflow/issues/11651\n    if mask is not None:\n        mask = resize(mask, scale=1./rate, func=tf.image.resize_nearest_neighbor)\n    fs = tf.shape(f)\n    int_fs = f.get_shape().as_list()\n    f_groups = tf.split(f, int_fs[0], axis=0)\n    # from t(H*W*C) to w(b*k*k*c*h*w)\n    bs = tf.shape(b)\n    int_bs = b.get_shape().as_list()\n    w = tf.extract_image_patches(\n        b, [1,ksize,ksize,1], [1,stride,stride,1], [1,1,1,1], padding='SAME')\n    w = tf.reshape(w, [int_fs[0], -1, ksize, ksize, int_fs[3]])\n    w = tf.transpose(w, [0, 2, 3, 4, 1])  # transpose to b*k*k*c*hw\n    # process mask\n    if mask is None:\n        mask = tf.zeros([1, bs[1], bs[2], 1])\n    ms = tf.shape(mask)\n    batch_size = ms[0]\n    m = tf.extract_image_patches(\n        mask, [1, ksize,ksize,1], [1,stride,stride,1], [1,1,1,1], padding='SAME')\n    m = tf.reshape(m, [batch_size, -1, ksize, ksize, 1])\n    m = tf.transpose(m, [0, 2, 3, 4, 1])  # transpose to b*k*k*c*hw\n    m = m[0]\n    mm = tf.cast(tf.equal(tf.reduce_mean(m, axis=[0,1,2], keep_dims=True), 0.), tf.float32)\n    w_groups = tf.split(w, int_bs[0], axis=0)\n    raw_w_groups = tf.split(raw_w, int_bs[0], axis=0)\n    y = []\n    offsets = []\n    k = fuse_k\n    scale = softmax_scale\n    fuse_weight = tf.reshape(tf.eye(k), [k, k, 1, 1])\n    for xi, wi, raw_wi in zip(f_groups, w_groups, raw_w_groups):\n        # conv for compare\n        wi = wi[0]\n        wi_normed = wi / tf.maximum(tf.sqrt(tf.reduce_sum(tf.square(wi), axis=[0,1,2])), 1e-4)\n        yi = tf.nn.conv2d(xi, wi_normed, strides=[1,1,1,1], padding=\"SAME\")\n\n        # conv implementation for fuse scores to encourage large patches\n        if fuse:\n            yi = tf.reshape(yi, [1, fs[1]*fs[2], bs[1]*bs[2], 1])\n            yi = tf.nn.conv2d(yi, fuse_weight, strides=[1,1,1,1], padding='SAME')\n            yi = tf.reshape(yi, [1, fs[1], fs[2], bs[1], bs[2]])\n            yi = tf.transpose(yi, [0, 2, 1, 4, 3])\n            yi = tf.reshape(yi, [1, fs[1]*fs[2], bs[1]*bs[2], 1])\n            yi = tf.nn.conv2d(yi, fuse_weight, strides=[1,1,1,1], padding='SAME')\n            yi = tf.reshape(yi, [1, fs[2], fs[1], bs[2], bs[1]])\n            yi = tf.transpose(yi, [0, 2, 1, 4, 3])\n        yi = tf.reshape(yi, [1, fs[1], fs[2], bs[1]*bs[2]])\n\n        # softmax to match\n        yi *=  mm  # mask\n        yi = tf.nn.softmax(yi*scale, 3)\n        yi *=  mm  # mask\n\n        offset = tf.argmax(yi, axis=3, output_type=tf.int32)\n        offset = tf.stack([offset // fs[2], offset % fs[2]], axis=-1)\n        # deconv for patch pasting\n        # 3.1 paste center\n        wi_center = raw_wi[0]\n        yi = tf.nn.conv2d_transpose(yi, wi_center, tf.concat([[1], raw_fs[1:]], axis=0), strides=[1,rate,rate,1]) / 4.\n        y.append(yi)\n        offsets.append(offset)\n    y = tf.concat(y, axis=0)\n    y.set_shape(raw_int_fs)\n    offsets = tf.concat(offsets, axis=0)\n    offsets.set_shape(int_bs[:3] + [2])\n    # case1: visualize optical flow: minus current position\n    h_add = tf.tile(tf.reshape(tf.range(bs[1]), [1, bs[1], 1, 1]), [bs[0], 1, bs[2], 1])\n    w_add = tf.tile(tf.reshape(tf.range(bs[2]), [1, 1, bs[2], 1]), [bs[0], bs[1], 1, 1])\n    offsets = offsets - tf.concat([h_add, w_add], axis=3)\n    # to flow image\n    flow = flow_to_image_tf(offsets)\n    # # case2: visualize which pixels are attended\n    # flow = highlight_flow_tf(offsets * tf.cast(mask, tf.int32))\n    if rate != 1:\n        flow = resize(flow, scale=rate, func=tf.image.resize_nearest_neighbor)\n    return y, flow",
+        "function_file": "inpaint_ops.py",
+        "test_function_name": "test_contextual_attention",
+        "test_function_code": "def test_contextual_attention(args):\n    \"\"\"Test contextual attention layer with 3-channel image input\n    (instead of n-channel feature).\n\n    \"\"\"\n    import cv2\n    import os\n    # run on cpu\n    os.environ['CUDA_VISIBLE_DEVICES'] = '0'\n\n    rate = 2\n    stride = 1\n    grid = rate*stride\n\n    b = cv2.imread(args.imageA)\n    b = cv2.resize(b, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_CUBIC)\n    h, w, _ = b.shape\n    b = b[:h//grid*grid, :w//grid*grid, :]\n    b = np.expand_dims(b, 0)\n    logger.info('Size of imageA: {}'.format(b.shape))\n\n    f = cv2.imread(args.imageB)\n    h, w, _ = f.shape\n    f = f[:h//grid*grid, :w//grid*grid, :]\n    f = np.expand_dims(f, 0)\n    logger.info('Size of imageB: {}'.format(f.shape))\n\n    with tf.Session() as sess:\n        bt = tf.constant(b, dtype=tf.float32)\n        ft = tf.constant(f, dtype=tf.float32)\n\n        yt, flow = contextual_attention(\n            ft, bt, stride=stride, rate=rate,\n            training=False, fuse=False)\n        y = sess.run(yt)\n        cv2.imwrite(args.imageOut, y[0])",
+        "test_function_file": "inpaint_ops.py",
+        "repository": "avalonstrel/GatedConvolution"
+    },
+    {
+        "function_name": "db_name_factory",
+        "function_code": "def db_name_factory(x, y):\n    return \"{}__{}\".format(y, x)",
+        "function_file": "tests/conftest.py",
+        "test_function_name": "test_db_name_factory",
+        "test_function_code": "def test_db_name_factory(person, place):\n    assert person.__mapping__.nicknames == 'person__nicknames'\n    assert place.__mapping__.zipcode == 'place__zipcode'",
+        "test_function_file": "tests/test_mapper.py",
+        "repository": "davebshow/goblin"
+    },
+    {
+        "function_name": "factorial",
+        "function_code": "def factorial(n):\n    if n < 0:\n    \treturn None\n    if n in [0, 1]:\n    \treturn 1\n    return n * factorial(n-1)",
+        "function_file": "factorial.py",
+        "test_function_name": "test_factorial",
+        "test_function_code": "def test_factorial():\n    assert factorial(1) == 1\n    assert factorial(0) == 1\n    assert factorial(-1) == None\n    assert factorial(5) == 120",
+        "test_function_file": "factorial.py",
+        "repository": "tamim/intro_ds_algo_py"
+    },
+    {
+        "function_name": "connectCached",
+        "function_code": "def connectCached(self, endpoint, protocolFactory,\n                      extraWork=lambda x: x,\n                      extraHash=None):\n        \"\"\"\n        See module docstring\n\n        @param endpoint:\n        @param protocolFactory:\n        @param extraWork:\n        @param extraHash:\n\n        @return: the D\n        \"\"\"\n        key = endpoint, extraHash\n        D = Deferred()\n        if key in self.cachedConnections:\n            D.callback(self.cachedConnections[key])\n        elif key in self.inProgress:\n            self.inProgress[key].append(D)\n        else:\n            self.inProgress[key] = [D]\n            endpoint.connect(\n                _CachingClientFactory(\n                    self, key, protocolFactory,\n                    extraWork))\n        return D",
+        "function_file": "vertex/conncache.py",
+        "test_function_name": "test_connectCached",
+        "test_function_code": "def test_connectCached(self):\n        \"\"\"\n        When called with an endpoint it isn't connected to,\n        L{conncache.ConnectionCache.connectCache} connects\n        to that endpoint and returns a deferred that fires\n        with that protocol.\n        \"\"\"\n        d = self.getCachedConnection()\n\n        self.assertEqual(len(self.endpoint.factories), 1)\n        connectedFactory = self.endpoint.factories.pop(0)\n        connectedProtocol = connectedFactory.buildProtocol(None)\n        self.assertNoResult(d)\n        connectedProtocol.makeConnection(object())\n\n        self.assertEqual(self.successResultOf(d), self.protocol)",
+        "test_function_file": "vertex/test/test_conncache.py",
+        "repository": "twisted/vertex"
+    },
+    {
+        "function_name": "computeKey",
+        "function_code": "def computeKey(password):\n        return computeKeyReturns",
+        "function_file": "vertex/test/_fakes.py",
+        "test_function_name": "test_computeKey",
+        "test_function_code": "def test_computeKey(self):\n        \"\"\"\n        The stub key computer accepts the same arguments as the real\n        key computer, both return a L{defer.Deferred} that fires with\n        the computed key.\n        \"\"\"\n        password = \"password\"\n        realKey = yield txscrypt.computeKey(password)\n\n        self.computeKeyReturns.callback(realKey)\n        fakeKey = yield self.fakeTxscrypt.computeKey(password)\n\n        self.assertEqual(realKey, fakeKey)\n        self.assertEqual(self.fakeTxscrypt.computeKey.calls, [call(password)])",
+        "test_function_file": "vertex/test/_fakes.py",
+        "repository": "twisted/vertex"
+    },
+    {
+        "function_name": "hack_RSA",
+        "function_code": "def hack_RSA(e,n):\n    '''\n    Finds d knowing (e,n)\n    applying the Wiener continued fraction attack\n    '''\n    frac = ContinuedFractions.rational_to_contfrac(e, n)\n    convergents = ContinuedFractions.convergents_from_contfrac(frac)\n    \n    for (k,d) in convergents:\n        \n        #check if d is actually the key\n        if k!=0 and (e*d-1)%k == 0:\n            phi = (e*d-1)//k\n            s = n - phi + 1\n            # check if the equation x^2 - s*x + n = 0\n            # has integer roots\n            discr = s*s - 4*n\n            if(discr>=0):\n                t = Arithmetic.is_perfect_square(discr)\n                if t!=-1 and (s+t)%2==0:\n                    print(\"Hacked!\")\n                    return d",
+        "function_file": "crypto/asr4cr/RSAwienerHacker.py",
+        "test_function_name": "test_hack_RSA",
+        "test_function_code": "def test_hack_RSA():\n    print(\"Testing Wiener Attack\")\n    times = 5\n    \n    while(times>0):\n        e,n,d = RSAvulnerableKeyGenerator.generateKeys(1024)\n        print(\"(e,n) is (\", e, \", \", n, \")\")\n        print(\"d = \", d)\n    \n        hacked_d = hack_RSA(e, n)\n    \n        if d == hacked_d:\n            print(\"Hack WORKED!\")\n        else:\n            print(\"Hack FAILED\")\n        \n        print(\"d = \", d, \", hacked_d = \", hacked_d)\n        print(\"-------------------------\")\n        times -= 1",
+        "test_function_file": "crypto/asr4cr/RSAwienerHacker.py",
+        "repository": "osirislab/CSAW-CTF-2018-Finals"
+    },
+    {
+        "function_name": "is_perfect_square",
+        "function_code": "def is_perfect_square(n):\n    '''\n    If n is a perfect square it returns sqrt(n),\n    \n    otherwise returns -1\n    '''\n    h = n & 0xF; #last hexadecimal \"digit\"\n    \n    if h > 9:\n        return -1 # return immediately in 6 cases out of 16.\n\n    # Take advantage of Boolean short-circuit evaluation\n    if ( h != 2 and h != 3 and h != 5 and h != 6 and h != 7 and h != 8 ):\n        # take square root if you must\n        t = isqrt(n)\n        if t*t == n:\n            return t\n        else:\n            return -1\n    \n    return -1",
+        "function_file": "crypto/asr4cr/Arithmetic.py",
+        "test_function_name": "test_is_perfect_square",
+        "test_function_code": "def test_is_perfect_square():\n    print(\"Testing is_perfect_square\")\n    testsuit = [4, 0, 15, 25, 18, 901, 1000, 1024]\n    \n    for n in testsuit:\n        print(\"Is \", n, \" a perfect square?\")\n        if is_perfect_square(n)!= -1:\n            print(\"Yes!\")\n        else:\n            print(\"Nope\")",
+        "test_function_file": "crypto/asr4cr/Arithmetic.py",
+        "repository": "osirislab/CSAW-CTF-2018-Finals"
+    }
+]
